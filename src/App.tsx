@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Produtos from './containers/Produtos'
+import Carrinho from './Carrinho'
+
 
 import { GlobalStyle } from './styles'
 
