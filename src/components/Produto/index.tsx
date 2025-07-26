@@ -1,26 +1,39 @@
-import React from 'react';
+import React from 'react'
+import { Produto as ProdutoType } from '../../App'
 
-
-interface Props {
-  
-  produto: {
-    id: number;
-    nome: string;
-    preco: number;
-    // ... outros campos do produto, se houver
-  };
-
-  aoComprar: () => void;
+// Função utilitária para formatar o valor em reais
+export const paraReal = (valor: number): string => {
+  return valor.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  })
 }
 
-const Produto: React.FC<Props> = ({ produto, aoComprar }) => {
+interface Props {
+  produto: ProdutoType
+  aoComprar: (produto: ProdutoType) => void
+  estaNosFavoritos?: boolean
+  favoritar?: (produto: ProdutoType) => void
+}
+
+const Produto: React.FC<Props> = ({
+  produto,
+  aoComprar,
+  estaNosFavoritos,
+  favoritar
+}) => {
   return (
     <div className="produto">
       <h3>{produto.nome}</h3>
-      <p>Preço: R$ {produto.preco}</p>
-      <button onClick={aoComprar}>Comprar</button>
+      <p>Preço: {paraReal(produto.preco)}</p>
+      <button onClick={() => aoComprar(produto)}>Comprar</button>
+      {favoritar && (
+        <button onClick={() => favoritar(produto)}>
+          {estaNosFavoritos ? 'Remover dos favoritos' : 'Favoritar'}
+        </button>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default Produto;
+export default Produto
